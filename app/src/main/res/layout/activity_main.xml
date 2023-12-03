@@ -1,18 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- 상단의 이미지를 겹치게 사용하기 위해 이미지뷰들을 감싸는 프레임 레이아웃 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:padding="0dp"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 첫 번째 cover01 이미지를 표시하는 이미지뷰 -->
+        <ImageView
+            android:id="@+id/imageV1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:padding="5dp"
+            android:src="@drawable/cover01"
+            android:layout_gravity="bottom"
+            android:scaleType="fitXY"
+            android:background="#64B4B1"
+            android:onClick="onImageClick"/>
+
+        <!-- 두 번째 cover00 이미지를 표시하는 이미지 뷰 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:src="@drawable/cover00"/>
+    </FrameLayout>
+
+    <!-- 중간의 도서목록, 동영상강좌, 고객센터, 마이페이지 버튼들을 감싸는 수직 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="5dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical"
+        android:weightSum="2.3">
+
+        <!-- 도서목록, 동영상강좌 버튼 2개를 담는 첫 번째 수평 레이아웃 -->
+        <!-- 하위 레이아웃들 높이를 layout_weight 비율로 위치를 조정하기 위해 layout_height를 0으로 설정-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal">
+
+            <!-- 첫 번째 도서목록 버튼을 감싸는 레이아웃 -->
+            <!-- 버튼 밖 weight 비율, background color, margin 을 지정 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <!-- 이미지 뷰를 onBookClick 메소드와 연결하여 이미지 버튼으로 만듦 -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/menu01"
+                    android:background="#dddbdb"
+                    android:onClick="onBookClick"/>
+            </LinearLayout>
+
+            <!-- 두 번째 동영상강좌 버튼을 감싸는 레이아웃 -->
+            <!-- 버튼 밖 weight 비율, background color, margin 을 지정 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <!-- 이미지 뷰를 onVideoClick 메소드와 연결하여 이미지 버튼으로 만듦 -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/menu02"
+                    android:background="#dddbdb"
+                    android:onClick="onVideoClick"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 세 번째 하위 LinearLayout: 고객 및 마이페이지 메뉴 버튼들을 담은 수평 레이아웃 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <!-- 세 번째 고객센터 버튼을 감싸는 레이아웃 -->
+            <!-- 버튼 밖 weight 비율, background color, margin 을 지정 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <!-- 이미지 뷰를 onCustomerClick 메소드와 연결하여 이미지 버튼으로 만듦 -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/menu03"
+                    android:background="#dddbdb"
+                    android:onClick="onCustomerClick"/>
+            </LinearLayout>
+
+            <!-- 네 번째 마이페이지 버튼을 감싸는 레이아웃 -->
+            <!-- 버튼 밖 weight 비율, background color, margin 을 지정 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <!-- 이미지 뷰를 onMyPageClick 메소드와 연결하여 이미지 버튼으로 만듦 -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/menu04"
+                    android:background="#dddbdb"
+                    android:onClick="onMyPageClick"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 하단에 배치할 로고 이미지를 감싸는 LinearLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center">
+
+            <!--하단에 배치할 로고를 나타내는 이미지 뷰-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo">
+            </ImageView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
