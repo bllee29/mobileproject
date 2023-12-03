@@ -2,14 +2,16 @@ package com.example.mobileproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BooksActivity extends AppCompatActivity {
@@ -22,6 +24,8 @@ public class BooksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 화살표 표시하기
+
         listBtn = findViewById(R.id.books_view01);
         gridBtn = findViewById(R.id.books_view02);
         listLayout = findViewById(R.id.list_layout);
@@ -115,5 +119,53 @@ public class BooksActivity extends AppCompatActivity {
         intent.putExtra("description", "[유니티 교과서, 개정 3판]은 유니티를 사용해 2D/3D 게임과 애니메이션을 만들면서 유니티 기초 지식과 함께 게임 제작 흐름을 익히는 것을 목적으로 한다. 유니티를 설치한 후 C# 핵심 문법을 학습하고, 이어서 여섯 가지 2D/3D 게임을 ‘게임 설계하기 → 프로젝트와 씬 만들기 → 씬에 오브젝트 배치하기 → 스크립트 작성하기 → 스크립트 적용하기’ 단계로 만들어 보면서 게임 제작 흐름을 익힌다. ");
         intent.putExtra("category", "게임");
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) { // 옵션 메뉴 파일 등록
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_books, menu);  // 메뉴 파일 등록
+        MenuItem searchItem = menu.findItem(R.id.menu_search); // 검색하기 메뉴
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("검색어(도서명)을 입력해주세요.");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // 검색하기 액션 버튼 이벤트
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(getApplicationContext(),query,Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // 옵션 메뉴의 클릭이벤트
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) { // 화살표(<-) 클릭 시 이전 액티비티(화면)로 이동하기
+            // onBackPressed(); finish와 같은 동작 하는듯?
+            finish();
+        } else if (itemId == R.id.menu_home) {
+            Toast.makeText(getApplicationContext(), "홈으로 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "홈으로 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
+            finish();   // back 버튼 누른 효과?
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (itemId == R.id.main_video) {
+            Toast.makeText(getApplicationContext(), "동영상강좌 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
+        } else if (itemId == R.id.menu_customer) {
+            Toast.makeText(getApplicationContext(), "고객센터 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
+        } else if (itemId == R.id.menu_mypage) {
+            Toast.makeText(getApplicationContext(), "마이페이지 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

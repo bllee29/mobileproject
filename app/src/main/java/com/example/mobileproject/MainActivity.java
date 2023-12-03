@@ -1,16 +1,28 @@
 package com.example.mobileproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+// toolbar import 주의
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+
+import com.google.android.material.navigation.NavigationView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     // 이미지 변경을 위한 변수
     int index = 0;
+    Toolbar toolbar;
+    DrawerLayout dLayout;
+    NavigationView navigation;
 
     // 액티비티가 생성될 때 호출되는 메소드
     @Override
@@ -18,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // activity_main 레이아웃을 화면에 표시
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
+        navigation = findViewById(R.id.navigation);
+        dLayout = findViewById(R.id.drawer_layout);
+        setSupportActionBar(toolbar); // 툴바 출력
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        navigation.setNavigationItemSelectedListener(this);
     }
 
     // 도서 목록 버튼 클릭 시 호출하는 메소드
@@ -58,5 +81,31 @@ public class MainActivity extends AppCompatActivity {
             menuObj.setImageResource(R.drawable.cover01);
         // 인덱스 증가
         index = 1 - index;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu01) {
+            Toast.makeText(this, " 메뉴1 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.menu02) {
+            Toast.makeText(this, " 메뉴2 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.menu03) {
+            Toast.makeText(this, " 메뉴3 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        }
+        dLayout.closeDrawers();
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (dLayout.isDrawerOpen(Gravity.LEFT)) {
+            dLayout.closeDrawers();
+        } else {
+
+            super.onBackPressed();
+        }
     }
 }

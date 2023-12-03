@@ -63,7 +63,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:layout_weight="2"
                     android:orientation="vertical">
 
@@ -72,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="자바 코딩의 기술"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -112,7 +111,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:layout_weight="2"
                     android:orientation="vertical">
 
@@ -121,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="머신 러닝을 다루는 기술"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -162,7 +160,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:layout_weight="2"
                     android:orientation="vertical">
 
@@ -171,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="모던 리눅스 관리"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -213,7 +210,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
                     android:layout_weight="2"
                     android:orientation="vertical">
 
@@ -222,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="유니티 교과서"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -257,8 +253,8 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -309,8 +305,8 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"

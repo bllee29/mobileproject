@@ -22,13 +22,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BookActivity"
-            android:exported="false" />
-        <activity
+            android:theme="@style/AppBaseTheme"
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity android:theme="@style/Theme.Mobileproject"
-            android:name=".BooksActivity"/>
+            android:label=""/>
+        <activity
+            android:name=".BooksActivity"
+            android:label="도서목록"
+            android:theme="@style/Theme.Mobileproject" />
+        <activity
+            android:name=".BookActivity"
+            android:label="도서상세정보"
+            android:theme="@style/Theme.Mobileproject" />
     </application>
 
 </manifest>
