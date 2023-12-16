@@ -2,14 +2,22 @@ package com.example.mobileproject;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,12 +26,16 @@ public class BookActivity extends AppCompatActivity {
 
     ImageView imgObj;
     TextView bookidObj, nameObj, priceObj, dateObj, writerObj, pageObj, descriptionObj, categoryObj;
+    Button cartplusObj;
+    TextView cartCount;
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 돌아가기 화살표
-        
+
         imgObj = findViewById(R.id.book_iv01);
         bookidObj = findViewById(R.id.book_tv01);
         nameObj = findViewById(R.id.book_tv02);
@@ -42,7 +54,45 @@ public class BookActivity extends AppCompatActivity {
         pageObj.setText(intent.getStringExtra("page"));
         descriptionObj.setText(intent.getStringExtra("description"));
         categoryObj.setText(intent.getStringExtra("category"));
-        switch (bookidObj.getText().toString()) {
+        
+//        cartCount = view.findViewById(R.id.basket_count);
+
+        cartplusObj = findViewById(R.id.book_bt01);
+        cartplusObj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(BookActivity.this);
+
+                alertDialog.setTitle("도서주문");
+                alertDialog.setMessage("상품을 장바구니에 추가하시겠습니까?");
+                alertDialog.setIcon(R.drawable.dialog_cat);
+
+                // yes no button listener
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            // yes누르면 카운트 + 1
+                            case DialogInterface.BUTTON_POSITIVE:
+                                int count = Integer.parseInt(cartCount.getText().toString()) + 1;
+                                cartCount.setText(Integer.toString(count));
+                                dialog.dismiss();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.cancel();
+                                break;
+                        }
+                    }
+                };
+
+                alertDialog.setPositiveButton("예", listener);
+                alertDialog.setNegativeButton("아니오", listener);
+                alertDialog.show();
+            }
+        });
+
+        String s = bookidObj.getText().toString();
+        switch (s) {
             case "BOOK1234":
                 imgObj.setImageResource(R.drawable.book11);
                 break;
@@ -56,24 +106,22 @@ public class BookActivity extends AppCompatActivity {
                 imgObj.setImageResource(R.drawable.book41);
                 break;
         }
-
-//        // This callback will only be called when MyFragment is at least Started.
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                finish();
-//            }
-//        };
-//        BookActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-//
-//        // The callback can be enabled or disabled here or in handleOnBackPressed()
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) { // 메뉴 파일 등록
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_book, menu);
+
+        RelativeLayout relativeLayout = (RelativeLayout)menu.findItem(R.id.menu_cart).getActionView();
+        cartCount = relativeLayout.findViewById(R.id.basket_count);
+
+
+//        RelativeLayout cartValue = (RelativeLayout)item.getActionView();
+//        cartCount = (TextView)cartValue.findViewById(R.id.basket_count);
+
+
+
         return super.onCreateOptionsMenu(menu);
     }
 

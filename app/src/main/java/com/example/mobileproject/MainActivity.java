@@ -1,6 +1,7 @@
 package com.example.mobileproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 // toolbar import 주의
 import androidx.appcompat.widget.Toolbar;
@@ -9,9 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -88,7 +92,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int itemId = item.getItemId();
         if (itemId == R.id.menu01) {
-            Toast.makeText(this, " 메뉴1 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, " 메뉴1 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_login, null);
+            builder.setView(dialogView);
+            AlertDialog dialog = builder.show();
+
+            Button loginbtn = dialogView.findViewById(R.id.loginBtn);
+            loginbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView tvID = dialogView.findViewById(R.id.userID);
+                    TextView tvPW = dialogView.findViewById(R.id.userPW);
+
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "ID: " + tvID.getText() + " PW: " +
+                            tvPW.getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
         } else if (itemId == R.id.menu02) {
             Toast.makeText(this, " 메뉴2 : " + item.getTitle(), Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.menu03) {
