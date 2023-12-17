@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.mobileproject.model.CartRepository;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,16 +29,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout dLayout;
     NavigationView navigation;
 
+    ImageView  menuObj;
+
+    public static CartRepository cartRepositoryObj;
+
     // 액티비티가 생성될 때 호출되는 메소드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // activity_main 레이아웃을 화면에 표시
         setContentView(R.layout.activity_main);
+
+        cartRepositoryObj = new CartRepository();
+
+        menuObj = findViewById(R.id.imageV1);
+
         toolbar = findViewById(R.id.toolbar);
         navigation = findViewById(R.id.navigation);
         dLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar); // 툴바 출력
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

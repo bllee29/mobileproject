@@ -1,16 +1,16 @@
 package com.example.mobileproject;
 
 
+import static com.example.mobileproject.MainActivity.cartRepositoryObj;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobileproject.cart.CartActivity;
+import com.example.mobileproject.model.Book;
+
 
 public class BookActivity extends AppCompatActivity {
 
@@ -28,7 +31,6 @@ public class BookActivity extends AppCompatActivity {
     TextView bookidObj, nameObj, priceObj, dateObj, writerObj, pageObj, descriptionObj, categoryObj;
     Button cartplusObj;
     TextView cartCount;
-
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,42 +56,18 @@ public class BookActivity extends AppCompatActivity {
         pageObj.setText(intent.getStringExtra("page"));
         descriptionObj.setText(intent.getStringExtra("description"));
         categoryObj.setText(intent.getStringExtra("category"));
-        
-//        cartCount = view.findViewById(R.id.basket_count);
 
-        cartplusObj = findViewById(R.id.book_bt01);
-        cartplusObj.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(BookActivity.this);
+        Book mBook = new Book();
 
-                alertDialog.setTitle("도서주문");
-                alertDialog.setMessage("상품을 장바구니에 추가하시겠습니까?");
-                alertDialog.setIcon(R.drawable.dialog_cat);
-
-                // yes no button listener
-                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            // yes누르면 카운트 + 1
-                            case DialogInterface.BUTTON_POSITIVE:
-                                int count = Integer.parseInt(cartCount.getText().toString()) + 1;
-                                cartCount.setText(Integer.toString(count));
-                                dialog.dismiss();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                dialog.cancel();
-                                break;
-                        }
-                    }
-                };
-
-                alertDialog.setPositiveButton("예", listener);
-                alertDialog.setNegativeButton("아니오", listener);
-                alertDialog.show();
-            }
-        });
+        mBook.bookid = bookidObj.getText().toString();
+        mBook.name = nameObj.getText().toString();
+        mBook.price = Integer.parseInt(priceObj.getText().toString());
+        mBook.date = dateObj.getText().toString();
+        mBook.writer = writerObj.getText().toString();
+        mBook.page = pageObj.getText().toString();
+        mBook.description = descriptionObj.getText().toString();
+        mBook.category = categoryObj.getText().toString();
+        mBook.quantity = 0;
 
         String s = bookidObj.getText().toString();
         switch (s) {
@@ -106,6 +84,44 @@ public class BookActivity extends AppCompatActivity {
                 imgObj.setImageResource(R.drawable.book41);
                 break;
         }
+
+        cartplusObj = findViewById(R.id.book_bt01);
+        cartplusObj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(BookActivity.this);
+
+                alertDialog.setTitle("도서주문");
+                alertDialog.setMessage("상품을 장바구니에 추가하시겠습니까?");
+                alertDialog.setIcon(R.drawable.dialog_cat);
+
+                // yes no button listener
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            // yes누르면 카운트 + 1
+                            case DialogInterface.BUTTON_POSITIVE:
+                                cartRepositoryObj.addCartItems(mBook);
+                                int count = Integer.parseInt(cartCount.getText().toString()) + 1;
+                                cartCount.setText(Integer.toString(count));
+                                dialog.dismiss();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                dialog.cancel();
+                                break;
+                        }
+                    }
+                };
+
+                alertDialog.setPositiveButton("예", listener);
+                alertDialog.setNegativeButton("아니오", listener);
+                alertDialog.show();
+            }
+        });
+
+
     }
 
     @Override
@@ -113,16 +129,23 @@ public class BookActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_book, menu);
 
-        RelativeLayout relativeLayout = (RelativeLayout)menu.findItem(R.id.menu_cart).getActionView();
-        cartCount = relativeLayout.findViewById(R.id.basket_count);
+        MenuItem item = menu.findItem(R.id.menu_cart);
+        MenuItemCompat.setActionView(item, R.layout.cart_count_layout);
+        RelativeLayout relativeLayout = (RelativeLayout) item.getActionView();
+        cartCount = (TextView)relativeLayout.findViewById(R.id.basket_count);
+        ImageView image = (ImageView) relativeLayout.findViewById(R.id.basket_icon);
 
-
-//        RelativeLayout cartValue = (RelativeLayout)item.getActionView();
-//        cartCount = (TextView)cartValue.findViewById(R.id.basket_count);
-
-
+        cartCount.setText(Integer.toString(cartRepositoryObj.countCartItems()));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(myIntent);
+            }
+        });
 
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -146,5 +169,12 @@ public class BookActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "장바구니 메뉴가 클릭되었습니다", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() { // 액티비티 새로고침
+        super.onResume();
+        if (cartCount != null)
+            cartCount.setText(Integer.toString(cartRepositoryObj.countCartItems()));
     }
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cart_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/cart_sum_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c8c8c8"
+        android:paddingTop="10dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="10dp">
+
+        <CheckBox
+            android:id="@+id/cart_selectall_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:paddingStart="5dp" />
+
+        <TextView
+            android:id="@+id/cart_selectall_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/cart_selectall_checkbox"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:text="전부 선택" />
+
+        <TextView
+            android:id="@+id/cart_total_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/cart_selectall_textview"
+            android:text="합계 : "
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/cart_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/cart_total_textview"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/cart_order_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="주문하기"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
